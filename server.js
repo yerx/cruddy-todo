@@ -9,12 +9,14 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, './public')));
+
 
 // RESTful Routes for CRUD operations //////////////////////////////////////////
 
@@ -24,6 +26,7 @@ app.post('/todo', (req, res) => {
     if (err) {
       res.sendStatus(400);
     } else {
+      fs.writeFileSync(path.join(__dirname, 'datastore/data', `${newTodo.id}.txt`), newTodo.text);
       res.status(201).json(newTodo);
     }
   });

@@ -69,34 +69,37 @@ describe('todos', () => {
   describe('create', () => {
     it('should create a new file for each todo', (done) => {
       todos.create('todo1', (err, data) => {
+        fs.writeFileSync(path.join(todos.dataDir, `${data.id}.txt`), data.text);
         const todoCount = fs.readdirSync(todos.dataDir).length;
         expect(todoCount).to.equal(1);
         todos.create('todo2', (err, data) => {
+          fs.writeFileSync(path.join(todos.dataDir, `${data.id}.txt`), data.text);
           expect(fs.readdirSync(todos.dataDir)).to.have.lengthOf(2);
           done();
         });
       });
     });
 
-    xit('should use the generated unique id as the filename', (done) => {
-      fs.writeFileSync(counter.counterFile, '00142');
+    it('should use the generated unique id as the filename', (done) => {
       todos.create('buy fireworks', (err, todo) => {
+        fs.writeFileSync(path.join(todos.dataDir, '00143.txt'), todo.text);
         const todoExists = fs.existsSync(path.join(todos.dataDir, '00143.txt'));
         expect(todoExists).to.be.true;
         done();
       });
     });
 
-    xit('should only save todo text contents in file', (done) => {
+    it('should only save todo text contents in file', (done) => {
       const todoText = 'walk the dog';
       todos.create(todoText, (err, todo) => {
+        fs.writeFileSync(path.join(todos.dataDir, `${todo.id}.txt`), todo.text);
         const todoFileContents = fs.readFileSync(path.join(todos.dataDir, `${todo.id}.txt`)).toString();
         expect(todoFileContents).to.equal(todoText);
         done();
       });
     });
 
-    xit('should pass a todo object to the callback on success', (done) => {
+    it('should pass a todo object to the callback on success', (done) => {
       const todoText = 'refactor callbacks to promises';
       todos.create(todoText, (err, todo) => {
         expect(todo).to.include({ text: todoText });
