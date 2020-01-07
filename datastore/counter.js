@@ -38,11 +38,18 @@ const writeCounter = (count, callback) => {
 
 // Public API - Fix this function //////////////////////////////////////////////
 
-exports.getNextUniqueId = () => {
+exports.getNextUniqueId = (callback) => {
   counter = counter + 1;
-  return zeroPaddedNumber(counter);
+  // call writeCounter; first arg 'counter' (err, id)
+  var newNumber;
+  return writeCounter(counter, ((_, id) => {
+    console.log('counter', id);
+    if (id) {
+      callback(id);
+    }
+  })
+  );
 };
-
 
 
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////
