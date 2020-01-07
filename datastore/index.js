@@ -12,8 +12,16 @@ exports.create = (text, callback) => {
     if (err) {
       return err;
     } else {
-      items[id] = text;
-      callback(null, { id, text });
+      items.dataDir = path.join(__dirname, 'data');
+      items.counterFile = path.join(items.dataDir, `${id}.txt`);
+      fs.writeFile(items.counterFile, text, (err) => {
+        if (err) {
+          throw err;
+        } else {
+          items[id] = text;
+          callback(null, { id, text });
+        }
+      });
     }
   });
 };

@@ -45,7 +45,6 @@ describe('getNextUniqueId', () => {
   it('should give the next id based on the count in the file', (done) => {
     fs.writeFileSync(counter.counterFile, '00025');
     counter.getNextUniqueId((err, id) => {
-      console.log(id)
       expect(id).to.equal('00026');
       done();
     });
@@ -68,7 +67,7 @@ describe('todos', () => {
   beforeEach(cleanTestDatastore);
 
   describe('create', () => {
-    xit('should create a new file for each todo', (done) => {
+    it('should create a new file for each todo', (done) => {
       todos.create('todo1', (err, data) => {
         const todoCount = fs.readdirSync(todos.dataDir).length;
         expect(todoCount).to.equal(1);
