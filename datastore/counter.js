@@ -40,13 +40,14 @@ const writeCounter = (count, callback) => {
 
 exports.getNextUniqueId = (callback) => {
   counter = counter + 1;
-  // call writeCounter; first arg 'counter' (err, id)
   var newNumber;
-  return writeCounter(counter, ((_, id) => {
-    console.log('counter', id);
-    if (id) {
-      callback(id);
+  writeCounter(counter, ((err, id) => {
+    if (err) {
+      return err;
+    } else {
+      callback(null, id);
     }
+
   })
   );
 };

@@ -20,12 +20,10 @@ app.use(express.static(path.join(__dirname, './public')));
 
 // Create (Crud) -- collection route
 app.post('/todo', (req, res) => {
-  console.log('req.body: ', req.body)
   Todo.create(req.body.todoText, (err, newTodo) => {
     if (err) {
       res.sendStatus(400);
     } else {
-      // console.log(newTodo)
       res.status(201).json(newTodo);
     }
   });
