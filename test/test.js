@@ -43,9 +43,10 @@ describe('getNextUniqueId', () => {
   });
 
   it('should give the next id based on the count in the file', (done) => {
-    fs.writeFileSync(counter.counterFile, '00003');
+    fs.writeFileSync(counter.counterFile, '00025');
     counter.getNextUniqueId((err, id) => {
-      expect(id).to.equal('00004');
+      console.log(id)
+      expect(id).to.equal('00026');
       done();
     });
   });
