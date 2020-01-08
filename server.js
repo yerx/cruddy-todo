@@ -26,7 +26,6 @@ app.post('/todo', (req, res) => {
     if (err) {
       res.sendStatus(400);
     } else {
-      fs.writeFileSync(path.join(__dirname, 'datastore/data', `${newTodo.id}.txt`), newTodo.text);
       res.status(201).json(newTodo);
     }
   });
